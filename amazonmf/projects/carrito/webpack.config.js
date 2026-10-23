@@ -5,11 +5,13 @@ module.exports = withModuleFederationPlugin({
   name: 'carrito',
 
   exposes: {
-    './Component': './projects/carrito/src/app/app.component.ts',
+    './Module': './projects/carrito/src/app/carrito/carrito.module.ts',
   },
 
   shared: {
     ...shareAll({ singleton: true, strictVersion: true, requiredVersion: 'auto' }),
   },
+
+  sharedMappings:["@core-lib", "@models"] //inyectando estas dependencias en este MF 
 
 });

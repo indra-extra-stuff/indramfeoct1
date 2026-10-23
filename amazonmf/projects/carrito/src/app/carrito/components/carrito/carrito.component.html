@@ -1,0 +1,76 @@
+<div class="carrito-container">
+
+    <h2>Carrrito de la compra</h2>
+
+    <table>
+        <thead>
+            <th>
+                Productos
+            </th>
+            <th>
+                Cantidad
+            </th>
+            <th>
+                Precio
+            </th>
+
+        </thead>
+        <!-- DEMO lista local -->
+        <!-- <tbody *ngIf="carrito && carrito.length >0; else carritoVacio">
+            <tr *ngFor="let item of carrito; trackBy: trackById">
+                <td>{{item.nombre}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>{{item.precio | currency:'EUR' }}</td>
+            </tr>
+
+
+        </tbody> -->
+
+        <!-- 
+        CORREGIMOS DESPUÉS DEL DESCANSO 11:30
+        -->
+        <!-- ESTADO REACTIVO lista de servicio-productos -->
+        <!-- con la pipe asyc, consumimos directamente los 
+          datos que nos proporciona el observable, ahorrádonos
+          la suscripción -->
+        <tbody>
+            <tr *ngIf="(productos$ | async)?.length === 0">
+                <td colspan="3">Carrito vacío</td>
+            </tr>
+            <tr *ngFor="let p of (productos$ | async); trackBy: trackById">
+                <td>{{p.nombre}}</td>
+                <td>{{p.cantidad}}</td>
+                <td>{{p.precio | currency:'EUR' }}</td>
+            </tr>
+
+
+        </tbody>
+
+        <ng-template #carritoVacio>
+            <tbody>
+                <tr>
+                    <td colspan="3" class="text-center">Tu carrrito está vacío</td>
+                </tr>
+            </tbody>
+        </ng-template>
+
+    </table>
+    <div class="carrito-total">
+        <!-- <strong>TOTAL RX </strong> {{total$ | async | currency:'EUR'}} -->
+        <strong>TOTAL </strong> {{total | currency:'EUR'}}
+    </div>
+
+    <button (click)="vaciarCarrito()">Vaciar carrito</button>
+
+    <h3>ESTADO NGRX</h3>
+    <ul>
+        <li *ngFor="let px of (productosNgRx$ | async)">
+            {{px.nombre}} (x {{px.cantidad}}) <button (click)="borrarProducto(px.id)">eliminar producto</button>
+        </li>
+    </ul>
+    <div class="carrito-total">
+        <strong>Número productos NGRX </strong> {{ productosNumeroArticulos$ | async }} <br>
+        <strong>TOTAL NGRX </strong> {{ productosPrecioTotal$ | async | currency: "EUR" }}
+    </div>
+
+</div>

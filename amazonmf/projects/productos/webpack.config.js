@@ -5,11 +5,13 @@ module.exports = withModuleFederationPlugin({
   name: 'productos',
 
   exposes: {
-    './Component': './projects/productos/src/app/app.component.ts',
+    './Module': './projects/productos/src/app/productos/productos.module.ts',
   },
 
   shared: {
     ...shareAll({ singleton: true, strictVersion: true, requiredVersion: 'auto' }),
   },
+
+   sharedMappings:["@core-lib", "@models"] //inyectando estas dependencias en este MF 
 
 });
